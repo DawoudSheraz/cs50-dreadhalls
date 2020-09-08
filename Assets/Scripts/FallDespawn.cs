@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneOnInput : MonoBehaviour
+public class FallDespawn : MonoBehaviour
 {
-
-    public string scene;
-    // Use this for initialization
+    // Start is called before the first frame update
     void Start()
     {
 
@@ -16,10 +14,11 @@ public class LoadSceneOnInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Submit") == 1)
+        if (transform.position.y < 0)
         {
-            DontDestroy.removeObject();
-            SceneManager.LoadScene(scene);
+
+            LevelGenerator.ResetLevel();
+            SceneManager.LoadScene("GameOver");
         }
     }
 }
