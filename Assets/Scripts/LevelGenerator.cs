@@ -24,6 +24,9 @@ public class LevelGenerator : MonoBehaviour
     // number of times we want to "dig" in our maze
     public int tilesToRemove = 50;
 
+    // number of holes in the floor
+    public int holeCount = 20;
+
     public int mazeSize;
 
     // spawns at the end of the maze generation
@@ -45,6 +48,7 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
 
+        int holesGenerated = 0;
         // initialize map 2D array
         mapData = GenerateMazeData();
 
@@ -69,10 +73,22 @@ public class LevelGenerator : MonoBehaviour
 
                     // flag as placed so we never consider placing again
                     characterPlaced = true;
+
+                    // Always generate the floor beneath player
+                    CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+
                 }
 
-                // create floor and ceiling
-                CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+                // Randomization to generate holes
+                if (Random.value < 0.1 && holesGenerated < holeCount && characterPlaced)
+                {
+                    holesGenerated++;
+                }
+                else
+                {
+                    CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+                }
+
 
                 if (generateRoof)
                 {
